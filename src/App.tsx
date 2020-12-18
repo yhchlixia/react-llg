@@ -1,6 +1,6 @@
 import React from 'react';
 import Index from './pages';
-import './App.css'
+import './App.less';
 
 const App = () => {
   return (
