@@ -2,57 +2,68 @@ import { Divider, Dropdown, Menu } from 'antd';
 import React, { useState } from 'react';
 import UIIMage from '../ui/UIImage';
 import './Header.less';
+import { Link } from 'react-router-dom';
+import { IMenu } from '../content';
 
 interface IHeader {
   onChange?: (value: any, menus: any) => void
 }
 
 const Header = (props: IHeader) => {
-  const menus = [
+  const menus: IMenu[] = [
     {
       id: 0,
       label: '实验室简介',
+      path: '/laboratory',
     }, {
       id: 1,
       label: '研究方向',
+      path: '/direction',
     }, {
       id: 2,
       label: '学术成果',
+      path: '/paper',
     }, {
       id: 3,
       label: '专利与著作权',
+      path: '/paper/periodical',
     }, {
       id: 4,
       label: '发布软件',
+      path: '/paper/periodical',
     }, {
       id: 5,
       label: '师生队伍',
+      path: '/paper/periodical',
     }, {
       id: 6,
       label: '人才培养',
+      path: '/paper/periodical',
     }, {
       id: 7,
       label: '媒体报道',
+      path: '/paper/periodical',
     }, {
       id: 8,
       label: '联系我们',
+      path: '/paper/periodical',
     }
   ]
 
   function getMenuItem(index: number) {
-    let menu: any[] = [];
+    let menu: IMenu[] = [];
     switch (index) {
       case 2:
-        menu = [{ id: 21, label: '期刊论文' }, { id: 22, label: '会议论文' }];
+        menu = [{ id: 21, label: '期刊论文', path: '/paper/periodical', parentLabel: '学术成果' }, { id: 22, label: '会议论文', path: '/paper/academic', parentLabel: '学术成果' }];
         break;
       case 3:
-        menu = [{ id: 31, label: '发明专利' }, { id: 32, label: '软件著作权' }];
+        menu = [{ id: 31, label: '发明专利', path: '/paper/periodical', parentLabel: '专利与著作权' }, { id: 32, label: '软件著作权', path: '/paper/periodical', parentLabel: '专利与著作权' }];
         break;
       case 5:
-        menu = [{ id: 51, label: '学术队伍' }, { id: 52, label: '工程队伍' }];
+        menu = [{ id: 51, label: '学术队伍', path: '/paper/periodical', parentLabel: '师生队伍' }, { id: 52, label: '工程队伍', path: '/paper/periodical', parentLabel: '师生队伍' }];
         break;
       case 6:
-        menu = [{ id: 61, label: '往届毕业生' }];
+        menu = [{ id: 61, label: '往届毕业生', path: '/paper/periodical', parentLabel: '人才培养' }];
         break;
       default: 
         break;
@@ -60,16 +71,16 @@ const Header = (props: IHeader) => {
     return menu;
   }
 
-  function getMenu(index: number) {
-    const menus = getMenuItem(index)
+  function getMenu(value: number) {
+    const menusHover = getMenuItem(value)
     let menu = (<div></div>)
-    if (menus && menus.length > 0) {
+    if (menusHover && menusHover.length > 0) {
       menu = (
         <Menu style={{backgroundColor: 'rgba(255, 255, 255, 0.5)'}}>
           {
-            menus.map((item: any, index: number) => (
+            menusHover.map((item: any, index: number) => (
               <Menu.Item key={index}>
-                <span>{item.label}</span>
+                <Link to={item.path}><span onClick={() => { onChange(menus[value]) }}>{item.label}</span></Link>
               </Menu.Item>
             ))
           }
@@ -100,7 +111,7 @@ const Header = (props: IHeader) => {
         {
           menus.map((item: any, index: number) => (
             <div className="header-menu-li" key={item.id}>
-              <Dropdown overlay={getMenu(index)}><span onClick={() => { onChange(item) }} className="label" style={{cursor: 'pointer'}} title={item.label}>{item.label}</span></Dropdown>
+              <Dropdown overlay={getMenu(index)}><Link to={item.path}><span onClick={() => { onChange(item) }} className="label" style={{cursor: 'pointer'}} title={item.label}>{item.label}</span></Link></Dropdown>
               {
                 menus.length == index + 1 ? null : <Divider type="vertical" style={{height: 18, width: 3, margin: '0 10px 0 20px', backgroundColor: '#ffffff'}}></Divider>
               }

@@ -2,13 +2,15 @@ import { Menu } from 'antd';
 import React from 'react';
 import UIIMage from '../../ui/UIImage';
 import './side.less';
+import { Link } from 'react-router-dom';
+import { IMenu } from '../../content';
 interface IValue {
   id: number;
   label: string;
 }
 
 interface ISide {
-  menu: any[];
+  menu: IMenu[];
   value: IValue;
   onChange?: () => void;
 }
@@ -26,8 +28,10 @@ const Side = (props: ISide) => {
               {
                 menu.map((item: any, index: number) => (
                   <Menu.Item key={index} className="side-menu-li">
-                    <div style={{display: 'inline-block', width: '19%', textAlign: 'center'}}><UIIMage type="dot2" width={23} height={19} /></div>
-                    <span style={{color: '#216ba8', fontWeight: 'bold', cursor:'pointer'}}>{item.label}</span>
+                    <Link to="/home">
+                      <div style={{display: 'inline-block', width: '19%', textAlign: 'center'}}><UIIMage type="dot2" width={23} height={19} /></div>
+                      <span style={{color: '#216ba8', fontWeight: 'bold', cursor:'pointer'}}>{item.label}</span>
+                    </Link>
                   </Menu.Item>
                 ))
               }

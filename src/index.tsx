@@ -4,18 +4,14 @@ import 'antd/dist/antd.css';
 import './index.less';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Router } from 'react-router'
-const routeConfig = [
-  { path: '/',
-    component: App,
-  }
-]
+import { BrowserRouter, Route } from 'react-router-dom';
 
-
-ReactDOM.render(<Router routes={routeConfig} />,
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>,
+ReactDOM.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
