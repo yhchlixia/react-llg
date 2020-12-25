@@ -76,7 +76,7 @@ const Index = () => {
           <Side menu={menu} value={value} />
         </div>
         <div className="main-right">
-          <RightHeader menu={menu} />
+          <RightHeader />
           <Route children={createRoute(routes)} />
         </div>
       </div>

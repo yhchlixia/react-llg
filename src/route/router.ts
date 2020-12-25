@@ -2,8 +2,16 @@ import BaseLayout from "../components/BaseLayout";
 import { IRoute } from "../content";
 import Academic from "../pages/academic/academic/Academic";
 import Periodical from "../pages/academic/periodical/Periodical";
+import Contact from "../pages/contact";
+import CulturePastGraduate from "../pages/culture/pastGraduate";
 import Direction from "../pages/direction";
 import Laboratory from "../pages/laboratory";
+import Copyright from "../pages/patant/copyright";
+import Invention from "../pages/patant/invention";
+import Report from "../pages/report";
+import Software from "../pages/software";
+import TeamAcademic from "../pages/team/academic";
+import TeamEnginner from "../pages/team/enginner";
 
 export const routes:IRoute[] = [
   {
@@ -40,39 +48,78 @@ export const routes:IRoute[] = [
     ]
   },
   {
-    path: '/laboratory',
+    path: '/patant',
     name: '专利与著作权',
-    component: Direction,
-    exact:true
+    component: BaseLayout,
+    exact:true,
+    redirect: true,
+    children: [
+      {
+        path: '/invention',
+        name: '发明专利',
+        component: Invention,
+        exact: true,
+      },
+      {
+        path: '/copyright',
+        name: '软件著作权',
+        component: Copyright,
+        exact: true,
+      },
+    ]
   },
   {
-    path: '/laboratory',
+    path: '/software',
     name: '发布软件',
-    component: Laboratory,
+    component: Software,
     exact:true
   },
   {
-    path: '/laboratory',
+    path: '/team',
     name: '师生队伍',
-    component: Laboratory,
-    exact:true
+    component: BaseLayout,
+    exact:true,
+    redirect: true,
+    children: [
+      {
+        path: '/academic',
+        name: '学术队伍',
+        component: TeamAcademic,
+        exact: true,
+      },
+      {
+        path: '/enginner',
+        name: '工程队伍',
+        component: TeamEnginner,
+        exact: true,
+      },
+    ]
   },
   {
-    path: '/laboratory',
+    path: '/culture',
     name: '人才培养',
-    component: Laboratory,
-    exact:true
+    component: BaseLayout,
+    exact:true,
+    redirect: true,
+    children: [
+      {
+        path: '/pastGraduate',
+        name: '往届毕业生',
+        component: CulturePastGraduate,
+        exact: true,
+      },
+    ]
   },
   {
-    path: '/laboratory',
+    path: '/report',
     name: '媒体报道',
-    component: Laboratory,
+    component: Report,
     exact:true
   },
   {
-    path: '/laboratory',
+    path: '/contact',
     name: '联系我们',
-    component: Laboratory,
+    component: Contact,
     exact:true
   }
 ]
