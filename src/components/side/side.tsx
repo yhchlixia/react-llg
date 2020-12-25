@@ -28,7 +28,7 @@ const Side = (props: ISide) => {
               {
                 menu.map((item: any, index: number) => (
                   <Menu.Item key={index} className="side-menu-li">
-                    <Link to="/home">
+                    <Link to={item.path}>
                       <div style={{display: 'inline-block', width: '19%', textAlign: 'center'}}><UIIMage type="dot2" width={23} height={19} /></div>
                       <span style={{color: '#216ba8', fontWeight: 'bold', cursor:'pointer'}}>{item.label}</span>
                     </Link>

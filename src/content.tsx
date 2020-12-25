@@ -9,7 +9,9 @@ export interface IMenu {
 
 export interface IRoute {
   path: string;
+  name?: string;
   component: any;
-  exact: boolean;
+  exact?: boolean;
   children?: IRoute[];
+  redirect?: boolean;
 }

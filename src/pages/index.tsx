@@ -3,9 +3,61 @@ import { Redirect, Route, Switch } from 'react-router';
 import Header from '../components/Header';
 import RightHeader from '../components/rightHeader';
 import Side from '../components/side/side';
-import { IMenu } from '../content';
+import { IMenu, IRoute } from '../content';
 import { routes } from '../route/router';
 import './index.less'
+
+const createRoute = (routes: IRoute[]) => {
+  return (
+    <Switch>
+      {
+        routes.map((route, index) => 
+          createFixRoute(route, index)
+        )
+      }
+      <Redirect from='/*' to='/laboratory' />
+    </Switch>
+  );
+};
+//该组件通过递归的方式，将所有route中带有children路由的父路由进行解构,最终用createBasicRoute函数来渲染
+const createFixRoute = (route: IRoute, index: any) => {
+  const { path, component: RouteComponent, children } = route;
+  if (children) {
+    return (
+      <Route
+        key={index}
+        path={path}
+        children={props => {
+          let redirectPath = null;
+          return <RouteComponent {...props}>
+            <Switch>
+              {children.map((child, index2) => {
+                const { path: childPath, redirect } = child;
+                if (redirect){
+                  redirectPath = childPath;
+                }
+                return createFixRoute({...child, path: path + childPath}, `${index}-${index2}`);
+              })}
+              <Redirect from={`${path}`} to={`${path}${redirectPath || children[0].path}`} />
+            </Switch>
+          </RouteComponent>;
+        }}
+      />
+    );
+  } else {
+    return createBasicRoute(route, index);
+  }
+};
+
+const createBasicRoute = (route: IRoute, index: number) => {
+  const { path, component: Component } = route;
+  return <Route exact key={index} path={path} component={(props: any) => {
+    // props.history.listen((path: string) => {    //  路由监听
+    //   ...
+    // });
+    return <Component {...props} />;
+  }} />;
+};
 
 const Index = () => {
   const [menu, setMenu] = useState<any[]>([]);
@@ -25,44 +77,7 @@ const Index = () => {
         </div>
         <div className="main-right">
           <RightHeader menu={menu} />
-          <Switch>
-            { // 利用render 渲染子路由
-              routes.map((route, index) => (
-                <Route
-                  key={index}
-                  path={route.path}
-                  exact={route.exact}
-                  render={(props) => { // 利用render 方法处理
-                    if (route.children) {
-                      return (
-                        <div>
-                          <route.component props={props}></route.component>
-                          <Switch>
-                            {
-                              route.children.map((child, i) => (
-                                <Route
-                                  key={i}
-                                  path={child.path}
-                                  exact={child.exact}
-                                  component={child.component}
-                                />
-                              ))
-                            }
-                            <Redirect to={route.children[0].path}></Redirect>
-                          </Switch>
-                        </div>
-                      )
-                    } else {
-                      return (
-                        <route.component props={props}></route.component>
-                      )
-                    }
-                  }}
-                />
-              ))
-            }
-            <Redirect from='/' to='/laboratory'></Redirect>
-          </Switch>
+          <Route children={createRoute(routes)} />
         </div>
       </div>
     </div>
