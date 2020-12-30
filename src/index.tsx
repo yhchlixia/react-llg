@@ -6,6 +6,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route } from 'react-router-dom';
 
+declare global {
+  interface Window {
+    img:any
+  }
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

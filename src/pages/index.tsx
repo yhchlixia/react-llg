@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import Header from '../components/Header';
 import RightHeader from '../components/rightHeader';
@@ -60,20 +60,37 @@ const createBasicRoute = (route: IRoute, index: number) => {
 };
 
 const Index = () => {
-  const [menu, setMenu] = useState<any[]>([]);
-  const [value, setvalue] = useState<IMenu>({ id: 0, label: '实验室简介', path: '/laboratory' });
-  function onChange(value: any, menus: IMenu[]) {
-    setMenu(menus);
+  const [menu, setMenu] = useState<IRoute[]>([]);
+  const [value, setvalue] = useState<IRoute>(routes[0]);
+  const [path, setPath] = useState<string>();
+  function onChange(value: any, path: string, menus?: IRoute[]) {
+    menus ? setMenu(menus) : setMenu([]);
     setvalue(value)
+    setPath(path);
   }
+  
+  useEffect(() => {
+    if (window.location.pathname) {
+      const menuArray = window.location.pathname.split('/');
+      const tabs = routes.find((item: IRoute, index: number) => item.path.split('/')[1] === menuArray[1]);
+      if (tabs?.children) {
+        setMenu(tabs.children)
+      } else {
+        setMenu([])
+      }
+      setvalue(tabs!)
+      setPath(window.location.pathname);
+    }
+  }, [])
+
   return (
     <div className="index">
       <div className="index-header">
-        <Header onChange={(value, menus) => { onChange(value, menus) }} />
+        <Header onChange={(value, path, menus) => { onChange(value, path, menus) }} />
       </div>
       <div className="main">
         <div className="main-left">
-          <Side menu={menu} value={value} />
+          <Side menu={menu} value={value} onChange={(value) => { setPath(value) }} />
         </div>
         <div className="main-right">
           <RightHeader />
