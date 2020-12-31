@@ -4,6 +4,7 @@ import Academic from "../pages/academic/academic/Academic";
 import Periodical from "../pages/academic/periodical/Periodical";
 import Contact from "../pages/contact";
 import CulturePastGraduate from "../pages/culture/pastGraduate";
+import CultureDetail from "../pages/culture/pastGraduate/detail";
 import Direction from "../pages/direction";
 import Laboratory from "../pages/laboratory";
 import Copyright from "../pages/patant/copyright";
@@ -107,7 +108,12 @@ export const routes:IRoute[] = [
         name: '往届毕业生',
         component: CulturePastGraduate,
         exact: true,
-      },
+      },{
+        path: '/pastGraduate/:id',
+        name: '往届毕业生详情',
+        component: CultureDetail,
+        exact: true,
+      }
     ]
   },
   {

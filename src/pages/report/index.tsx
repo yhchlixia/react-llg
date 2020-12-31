@@ -16,7 +16,7 @@ const Report = (props: any) => {
     });
   }
   return (
-    <div className="report">
+    <div className="report" style={{padding: '20px 0'}}>
       <List
         itemLayout="vertical"
         size="large"
@@ -24,18 +24,23 @@ const Report = (props: any) => {
           onChange: page => {
             console.log(page);
           },
-          pageSize: 10,
+          defaultPageSize: 10,
           showTotal: total => `总共 ${total} 记录`,
+          size: 'small',
+          // showQuickJumper: {goButton: <span>去</span>},
+          pageSizeOptions: ['5', '10', '20'],
+          showQuickJumper: true,
+          showSizeChanger: true,
         }}
         dataSource={listData}
         renderItem={item => (
           <List.Item
             key={item.title}
             extra={item.time}
-            style={{padding: '5px 0', lineHeight: '30px', border: 'none'}}
+            style={{padding: '0', lineHeight: '30px', border: 'none'}}
           >
             <UIIMage type="dot1" size={14} />
-            <a style={{color: '#057b8a', marginLeft: 5}} href={item.href}>{item.content}</a>
+            <a target="_blank" style={{color: '#057b8a', marginLeft: 5}} href={item.href}>{item.content}</a>
           </List.Item>
         )} />
     </div>

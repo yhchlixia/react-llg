@@ -61,7 +61,7 @@ const createBasicRoute = (route: IRoute, index: number) => {
 
 const Index = () => {
   const [menu, setMenu] = useState<IRoute[]>([]);
-  const [value, setvalue] = useState<IRoute>(routes[0]);
+  const [value, setvalue] = useState<IRoute>();
   const [path, setPath] = useState<string>();
   function onChange(value: any, path: string, menus?: IRoute[]) {
     menus ? setMenu(menus) : setMenu([]);
