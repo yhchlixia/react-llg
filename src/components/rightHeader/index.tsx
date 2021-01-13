@@ -23,13 +23,17 @@ const RightHeader = (props: IRightHeader) => {
   }, [window.location.pathname])
 
   const getMenus = (route: IRoute[], menuArray: string[], index: number): string => {
-    const value = route.filter((item: IRoute) => menuArray[index + 1] === item.path.split('/')[1]);
-    const name = value[0].name;
-    if (value[0].children) {
-      index += 1
-      return name + ',' + getMenus(value[0].children, menuArray, index)
+    if (menuArray[index + 1]) {
+      const value = route.filter((item: IRoute) => menuArray[index + 1] === item.path.split('/')[1]);
+      const name = value[0].name;
+      if (value[0].children) {
+        index += 1
+        return name + ',' + getMenus(value[0].children, menuArray, index)
+      } else {
+        return name || ''
+      }
     } else {
-      return name
+      return ''
     }
   }
 

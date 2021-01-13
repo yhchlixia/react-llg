@@ -93,7 +93,7 @@ const Index = () => {
           <Side menu={menu} value={value} onChange={(value) => { setPath(value) }} />
         </div>
         <div className="main-right">
-          <RightHeader />
+          {/* <RightHeader /> */}
           <Route children={createRoute(routes)} />
         </div>
       </div>
